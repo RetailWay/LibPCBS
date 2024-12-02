@@ -18,6 +18,7 @@ namespace RetailWay.Integration.LibPCBS
             hid.CopyTo(_devices, serial.Count);
         }
 
+        /// <remarks>Не стабильно! Нужно дальнейшее исследование</remarks>
         private static List<Device> SerialDiscover()
         {
             var devs = new List<Device>();
@@ -26,11 +27,11 @@ namespace RetailWay.Integration.LibPCBS
             {
                 var port = p.ToUpper();
                 if(!port.StartsWith("COM") || port == "COM1") continue;
-                var strResp = "";
+                var resp = new byte[0];
                 using (var serialConn = new SerialPort(port))
                 {
                     serialConn.WriteTimeout = 1000;
-                    serialConn.ReadTimeout = 10000;
+                    serialConn.ReadTimeout = 1000;
                     serialConn.Open();
                     try
                     {
@@ -40,16 +41,15 @@ namespace RetailWay.Integration.LibPCBS
                         serialConn.Write(req, 0, req.Length);
                         req = new byte[] { 255, 77, 13, 56, 48, 48, 48, 48, 49, 49, 46 };
                         serialConn.Write(req, 0, req.Length);
-                        var resp = new byte[9];
+                        resp = new byte[9];
                         serialConn.Read(resp, 0, resp.Length);
-                        strResp = Encoding.ASCII.GetString(resp);
                     }
                     catch
                     {
-                        strResp = "";
+                        resp = new byte[0];
                     }
                 }
-                if (strResp == "8000011\x06.") continue;
+                if (resp != new byte[] { 0x38, 0x30, 0x30, 0x30, 0x30, 0x31, 0x31, 0x06, 0x2e}) continue;
                 devs.Add(new Device(ConnType.Serial, port));
             }
 

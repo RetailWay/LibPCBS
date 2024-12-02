@@ -33,7 +33,11 @@ namespace RetailWay.Integration.LibPCBS
             else
                 com = new CachedType<SerialPort>(() =>
                 {
-                    var port = new SerialPort(Address);
+                    var port = new SerialPort(Address)
+                    {
+                        ReadTimeout = 3000,
+                        WriteTimeout = 3000
+                    };
                     port.Open();
                     return port;
                 }, port => port.Dispose());
@@ -84,7 +88,7 @@ namespace RetailWay.Integration.LibPCBS
             if (command.Contains(';') || command.Count(c => c == '.') > 1)
                 throw new InvalidCommandException();
             var req = new byte[] { 128, 37, 0, 0, 0, 0, 8 };
-            com.Value.Write(req, 0, req.Length);
+                com.Value.Write(req, 0, req.Length);
             req = new byte[] { 0, 194, 1, 0, 0, 0, 8 };
             com.Value.Write(req, 0, req.Length);
             req = new byte[3+command.Length];

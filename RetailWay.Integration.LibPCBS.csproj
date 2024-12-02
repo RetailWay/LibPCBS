@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net48;net6.0-windows;net8.0-windows;net40;net472</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <Authors>OrnarasUS</Authors>
-        <AssemblyVersion>0.0.1</AssemblyVersion>
-        <FileVersion>0.0.1</FileVersion>
+        <AssemblyVersion>0.0.2</AssemblyVersion>
+        <FileVersion>0.0.2</FileVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Title>LibPCBS</Title>
+        <Description>LibPCBS is a C# library for configuring POSCenter's Barcode-Scanners</Description>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/RetailWay/LibPCBS/refs/heads/main/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/RetailWay/LibPCBS</RepositoryUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
